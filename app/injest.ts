@@ -45,7 +45,7 @@ export async function injest() {
     //   });
     const llmA = new OpenAI({});
     const chainA = loadQAStuffChain(llmA);
-    const text = jsonData.data.map((category : Category) => 
+    const text = jsonData?.data?.map((category : Category) => 
         category.programs.map(program => 
             program.programs.map(p => p.description).join('\n')
         ).join('\n\n')
