@@ -6,26 +6,62 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem, DropdownMenuContent, DropdownMenu } from "@/components/ui/dropdown-menu"
+import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { Header } from "../header"
 import Head from "next/head"
 import { SidebarNew } from "./sidebar"
 export function Dashboard() {
   return (
-    <div className="grid h-screen w-full min-h-screen lg:grid-cols-[300px_1fr]">
+    <div className="flex h-screen w-full min-h-screen lg:grid-cols-[300px_1fr] overflow-y-hidden">
       <div className="flex flex-col">
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
           <div className="grid gap-4 md:gap-8">
             <div className="flex items-center gap-4 md:gap-8">
-              <h1 className="text-2xl font-bold">Welcome to SME Portal</h1>
+              <h1 className="text-2xl font-semibold">Welcome to Govern Analysis</h1>
             </div>
             <div className="grid gap-4 md:gap-8">
-              <p className="text-gray-500 text-sm  dark:text-gray-400">
-                SME Portal is the go-to platform for businesses to access government services and support. It provides a
-                range of resources and tools to help SMEs grow and thrive.
+              <p className="text-gray-500 text-sm  dark:text-gray-400 font-light">
+                Govern Analysis is the go-to platform for businesses to access government services and support. It provides a
+                range of resources and tools to help your SMEs grow and thrive, and guides users through the end-to-end process of setting up a business in Singapore
+
+                anticipating and matching users’ business needs with
+                relevant government services and support schemes, etc.
               </p>
             </div>
-            <div className="grid gap-4 md:gap-8">
-              <Button size="lg">Assessment Tool</Button>
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <Card className="bg-[#333333] text-white">
+                <CardHeader>
+                  <CardTitle>My Assessment</CardTitle>
+                  <CardDescription>
+                    Complete the assessment to get personalized recommendations for your business.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="bg-white text-black">Start Assessment</Button>
+                </CardContent>
+              </Card>
+              <Card className="bg-[#333333] text-white">
+                <CardHeader>
+                  <CardTitle>Government Services</CardTitle>
+                  <CardDescription>
+                    Access a variety of services offered by the government to support your business.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="bg-white text-black">Learn More</Button>
+                </CardContent>
+              </Card>
+              <Card className="bg-[#333333] text-white">
+                <CardHeader>
+                  <CardTitle>Resource Center</CardTitle>
+                  <CardDescription>
+                    Find articles, tools, and guides to help you navigate through business challenges.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="bg-white text-black">Explore Resources</Button>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </main>
