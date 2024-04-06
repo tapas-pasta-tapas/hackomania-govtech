@@ -5,17 +5,17 @@ import { Input } from "@/components/ui/input";
 
 export function SidebarNew() {
     return (
-        <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-zinc-950  ">
+        <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-zinc-950 w-[240px]">
             <div className="flex h-full flex-col gap-2">
                 <div className="flex h-[60px] items-center border-b px-6">
                     <Link className="flex items-center gap-2 font-semibold" href="#">
                         <Package2Icon className="size-6" />
                         <span className="">Acme Inc</span>
                     </Link>
-                    <Button className="ml-auto size-8" size="icon" variant="outline">
+                    {/* <Button className="ml-auto size-8" size="icon" variant="outline">
                         <BellIcon className="size-4" />
                         <span className="sr-only">Toggle notifications</span>
-                    </Button>
+                    </Button> */}
                 </div>
                 <div className="flex-1 overflow-auto py-2">
                     <nav className="grid items-start px-4 text-sm font-medium">
@@ -56,7 +56,7 @@ export function SidebarNew() {
                         </Link>
                     </nav>
                 </div>
-                <div className="flex items-center border-t py-4">
+                {/* <div className="flex items-center border-t py-4">
                     <form className="flex items-center w-full gap-2 px-4">
                         <SearchIcon className="size-4 text-gray-500 dark:text-gray-400" />
                         <Input
@@ -65,7 +65,7 @@ export function SidebarNew() {
                             type="search"
                         />
                     </form>
-                </div>
+                </div> */}
             </div>
         </div>
     );
