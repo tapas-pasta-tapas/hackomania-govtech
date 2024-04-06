@@ -4,6 +4,7 @@ import { useActions, useUIState } from 'ai/rsc'
 
 import type { AI } from '@/lib/chat/actions'
 import Link from 'next/link'
+import { elaboratePrompt } from '@/lib/promptEngineering'
 
 interface Grant {
   name: string
@@ -23,7 +24,7 @@ export function Grants({ props: grants }: { props: Grant[] }) {
             key={index}
             className="flex cursor-pointer flex-col w-full gap-2 rounded-lg bg-zinc-800 p-2 text-left hover:bg-zinc-700 h-auto"
             onClick={async () => {
-              const response = await submitUserMessage(`View ${grant.name}`)
+              const response = await submitUserMessage(`${elaboratePrompt}: ${grant.name}`)
               setMessages(currentMessages => [...currentMessages, response])
             }}
           >

@@ -8,5 +8,7 @@ If you want to show grants, call \`view_grants\`.
 If you want to show events, call \`get_events\`.
 If the user wants to sell stock, or complete another impossible task, respond that you are a demo and cannot do that.
 
-YOU MUST ONLY DATA GIVEN BELOW, AND NO OTHER DATA. GIVE PROPER NAME, DESCRIPTION AND URL:
+YOU MUST ONLY DATA GIVEN BELOW, AND NO OTHER DATA. GIVE PROPER NAME, DESCRIPTION AND URL FOR EACH PROGRAM.:
 `
+
+export const elaboratePrompt = `Elaborate on`
