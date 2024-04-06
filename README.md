@@ -9,10 +9,9 @@
 
 <p align="center">
   <a href="#features"><strong>Features</strong></a> ·
-  <a href="#model-providers"><strong>Model Providers</strong></a> ·
-  <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
-  <a href="#running-locally"><strong>Running locally</strong></a> ·
-  <a href="#authors"><strong>Authors</strong></a>
+  <a href="#our-architecture"><strong>Our Architecture</strong></a> ·
+  <a href="#chat-page"><strong>Chat Page</strong></a> ·
+  <a href="#other-authors"><strong>Other authors</strong></a>
 </p>
 <br/>
 
@@ -29,15 +28,30 @@
 - Chat History, rate limiting, and session storage with [Vercel KV](https://vercel.com/storage/kv)
 - [NextAuth.js](https://github.com/nextauthjs/next-auth) for authentication
 
-## Model Providers
+## Our Architecture
 
-This project make use of LLM with LangChain to provide information on government policies and regulations. It also uses RAG to reduce the search space for the LLM model and provide more accurate results.
+<a href="https://hackomania-govtech.vercel.app/">
+  <img alt="GovernAnalysis GPT" src="docs/Model.png">
+  <h1 align="center">Application Design</h1>
+</a>
+
+This project make use of LLM with LangChain to provide information on government policies and regulations. It also uses Retrieval Augmented Generation (RAG) and vector database from Supabase instance to reduce the search space for the LLM model and provide more accurate results.
+
+## Our motivation
+
+Starting a business is difficult enough, the huge suite of government programs is also not easy to navigate. How can we make a simple-to-use, intelligent G2B digital system that brings businesses closer to government support? 
+
+## Why this product
+
+This product can:
+- Understand the needs and concerns of the business
+- Classify the needs and concerns of the business
+- Serve targeted programs and schemes that businesses will benefit from
 
 ## Chat Page
 
 <a href="https://hackomania-govtech.vercel.app/">
   <img alt="GovernAnalysis GPT" src="docs/Chat.png">
-  <h1 align="center">Our Chat page</h1>
 </a>
 
 ## Creating a KV Database Instance
@@ -46,24 +60,7 @@ Follow the steps outlined in the [quick start guide](https://vercel.com/docs/sto
 
 Remember to update your environment variables (`KV_URL`, `KV_REST_API_URL`, `KV_REST_API_TOKEN`, `KV_REST_API_READ_ONLY_TOKEN`) in the `.env` file with the appropriate credentials provided during the KV database setup.
 
-## Running locally
-
-You will need to use the environment variables [defined in `.env.example`](.env.example) to run Next.js AI Chatbot. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env` file is all that is necessary.
-
-> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various OpenAI and authentication provider accounts.
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`
-3. Download your environment variables: `vercel env pull`
-
-```bash
-pnpm install
-pnpm dev
-```
-
-Your app template should now be running on [localhost:3000](http://localhost:3000/).
-
-## Authors
+## Other Authors
 
 This library is created by [Vercel](https://vercel.com) and [Next.js](https://nextjs.org) team members, with contributions from:
 
