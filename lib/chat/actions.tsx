@@ -23,7 +23,7 @@ import { z } from 'zod'
 import { EventsSkeleton } from '@/components/stocks/events-skeleton'
 import { Events } from '@/components/stocks/events'
 import { StocksSkeleton } from '@/components/stocks/stocks-skeleton'
-import { Stocks } from '@/components/stocks/stocks'
+import { Grants } from '@/components/stocks/grants'
 import { StockSkeleton } from '@/components/stocks/stock-skeleton'
 import {
   formatNumber,
@@ -138,6 +138,10 @@ async function submitUserMessage(content: string) {
     ]
   })
 
+//   Messages inside [] means that it's a UI element or a user event. For example:
+// - "[Price of AAPL = 100]" means that an interface of the stock price of AAPL is shown to the user.
+// - "[User has changed the amount of AAPL to 10]" means that the user has changed the amount of AAPL to 10 in the UI.
+
   let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
   let textNode: undefined | React.ReactNode
 
@@ -149,16 +153,14 @@ async function submitUserMessage(content: string) {
       {
         role: 'system',
         content: `\
-You are a stock trading conversation bot and you can help users buy stocks, step by step.
-You and the user can discuss stock prices and the user can adjust the amount of stocks they want to buy, or place an order, in the UI.
+You are a government grants recommender conversation bot and you can help users find government grants, step by step.
+You and the user can discuss government grants and the user can adjust the grants, in the UI.
 
-Messages inside [] means that it's a UI element or a user event. For example:
-- "[Price of AAPL = 100]" means that an interface of the stock price of AAPL is shown to the user.
-- "[User has changed the amount of AAPL to 10]" means that the user has changed the amount of AAPL to 10 in the UI.
 
-If the user requests purchasing a stock, call \`show_stock_purchase_ui\` to show the purchase UI.
+
+If the user requests purchasing a stock, call \`show_garbage\` to show the purchase UI.
 If the user just wants the price, call \`show_stock_price\` to show the price.
-If you want to show trending stocks, call \`list_stocks\`.
+If you want to show grants, call \`view_grants\`.
 If you want to show events, call \`get_events\`.
 If the user wants to sell stock, or complete another impossible task, respond that you are a demo and cannot do that.
 
@@ -196,18 +198,18 @@ Besides that, you can also chat with users and do some calculations if needed.`
       return textNode
     },
     functions: {
-      listStocks: {
-        description: 'List three imaginary stocks that are trending.',
+      viewGrants: {
+        description: 'List three imaginary government grants for startups.',
         parameters: z.object({
-          stocks: z.array(
+          grants: z.array(
             z.object({
-              symbol: z.string().describe('The symbol of the stock'),
-              price: z.number().describe('The price of the stock'),
-              delta: z.number().describe('The change in price of the stock')
+              name: z.string().describe('The name of the grant'),
+              description: z.string().describe('The description of the grant'),
+              link: z.string().describe('The link to the grant')
             })
           )
         }),
-        render: async function* ({ stocks }) {
+        render: async function* ({ grants }) {
           yield (
             <BotCard>
               <StocksSkeleton />
@@ -223,15 +225,15 @@ Besides that, you can also chat with users and do some calculations if needed.`
               {
                 id: nanoid(),
                 role: 'function',
-                name: 'listStocks',
-                content: JSON.stringify(stocks)
+                name: 'viewGrants',
+                content: JSON.stringify(grants)
               }
             ]
           })
 
           return (
             <BotCard>
-              <Stocks props={stocks} />
+              <Grants props={grants} />
             </BotCard>
           )
         }
@@ -277,7 +279,7 @@ Besides that, you can also chat with users and do some calculations if needed.`
           )
         }
       },
-      showStockPurchase: {
+      showGarbage: {
         description:
           'Show price and the UI to purchase a stock or currency. Use this if the user wants to purchase a stock or currency.',
         parameters: z.object({
@@ -469,15 +471,15 @@ export const getUIStateFromAIState = (aiState: Chat) => {
       id: `${aiState.chatId}-${index}`,
       display:
         message.role === 'function' ? (
-          message.name === 'listStocks' ? (
+          message.name === 'viewGrants' ? (
             <BotCard>
-              <Stocks props={JSON.parse(message.content)} />
+              <Grants props={JSON.parse(message.content)} />
             </BotCard>
           ) : message.name === 'showStockPrice' ? (
             <BotCard>
               <Stock props={JSON.parse(message.content)} />
             </BotCard>
-          ) : message.name === 'showStockPurchase' ? (
+          ) : message.name === 'showGarbage' ? (
             <BotCard>
               <Purchase props={JSON.parse(message.content)} />
             </BotCard>
