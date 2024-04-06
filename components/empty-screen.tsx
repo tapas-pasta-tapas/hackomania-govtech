@@ -43,7 +43,7 @@ export function EmptyScreen() {
           .
         </p>
         <p className="leading-normal text-muted-foreground">
-           Feel free to ask me anything about the government website.
+           Feel free to ask me queries related to <span className="font-bold">government initiatives</span> for businesses.
         </p>
       </div>
     </div>

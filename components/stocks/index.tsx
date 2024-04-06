@@ -23,7 +23,7 @@ const Purchase = dynamic(
   }
 )
 
-const Stocks = dynamic(() => import('./stocks').then(mod => mod.Stocks), {
+const Stocks = dynamic(() => import('./grants').then(mod => mod.Grants), {
   ssr: false,
   loading: () => <StocksSkeleton />
 })
