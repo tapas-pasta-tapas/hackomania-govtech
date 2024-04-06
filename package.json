@@ -23,6 +23,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.7",
+    "@supabase/ssr": "^0.1.0",
     "@vercel/analytics": "^1.1.2",
     "@vercel/kv": "^1.0.1",
     "@vercel/og": "^0.6.2",
@@ -48,6 +49,7 @@
     "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",
     "sonner": "^1.4.3",
+    "supabase": "^1.153.4",
     "usehooks-ts": "^2.16.0",
     "zod": "^3.22.4"
   },
