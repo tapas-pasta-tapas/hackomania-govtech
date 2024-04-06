@@ -23,7 +23,7 @@ import { z } from 'zod'
 import { EventsSkeleton } from '@/components/stocks/events-skeleton'
 import { Events } from '@/components/stocks/events'
 import { StocksSkeleton } from '@/components/stocks/stocks-skeleton'
-import { Stocks } from '@/components/stocks/stocks'
+import { Grants } from '@/components/stocks/grants'
 import { StockSkeleton } from '@/components/stocks/stock-skeleton'
 import {
   formatNumber,
@@ -35,6 +35,225 @@ import { saveChat } from '@/app/actions'
 import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
 import { Chat } from '@/lib/types'
 import { auth } from '@/auth'
+import { userMessagePrompt } from '../promptEngineering'
+
+const DUMMYDATA = [
+  {
+    "category": "grants",
+    "programs": [
+      {
+        "name": "Grants for Startups",
+        "programs": [
+          {
+            "name": "Startup SG Founder",
+            "description": "Provides mentorship and startup capital grant of S$50,000 to first-time entrepreneurs with innovative business ideas. Startups are required to commit S$10,000 as co-matching fund to the grant.",
+            "url": "https://www.startupsg.gov.sg/programmes/4894/startup-sg-founder"
+          },
+          {
+            "name": "Startup SG Tech",
+            "description": "Supports Proof-of-Concept (POC) and Proof-of-Value (POV) for commercialisation of innovative technologies.",
+            "url": "https://www.startupsg.gov.sg/programmes/4897/startup-sg-tech"
+          }
+        ]
+      },
+      {
+        "name": "Adopt Technology to Digitise My Business",
+        "programs": [
+          {
+            "name": "Operation & Technology Roadmap (OTR)",
+            "description": "Development of technology roadmaps to map out priorities aligned with businesses’ strategies and developmental plans. Eligible SMEs may receive up to 70% funding support.",
+            "url": "https://www.a-star.edu.sg/Collaborate/programmes-for-smes/Operation-Technology-Roadmap"
+          },
+          {
+            "name": "Productivity Solutions Grant (PSG)",
+            "description": "Supports businesses in the adoption of productivity solutions. Businesses can choose from a list of pre-scoped solutions and receive up to 50% funding support for eligible costs.",
+            "url": "https://www.gobusiness.gov.sg/productivity-solutions-grant/"
+          },
+          {
+            "name": "Start Digital",
+            "description": "SMEs new to using digital technology can adopt any 2 solutions e.g. Digital Marketing, Digital Collaboration, Accounting, HR/Payroll, Cybersecurity, etc., at no cost for at least 6 months (min. 18 months contract).",
+            "url": "https://www.imda.gov.sg/StartDigital"
+          },
+          {
+            "name": "Technology for Enterprise Capability Upgrading (T-Up)",
+            "description": "Get access to talents from A*STAR’s Research Institutes and build in-house R&D capabilities.",
+            "url": "https://www.a-star.edu.sg/Collaborate/programmes-for-smes/Technology-for-Enterprise-Capability-Upgrading"
+          }
+        ]
+      },
+      {
+        "name": "Bring My Business Overseas",
+        "programs": [
+          {
+            "name": "Career Trial",
+            "description": "Allows companies to assess jobseekers’ job fit through a short-term trial, before formal employment. Government will provide training allowance to the jobseekers for the trial period (up to 3 months).",
+            "url": "https://www.wsg.gov.sg/programmes-and-initiatives/career-trial-employers.html"
+          },
+          {
+            "name": "Jobs Growth Incentive (JGI)",
+            "description": "The Jobs Growth Incentive (JGI) was announced on 17 Aug 2020 to encourage employers to accelerate their hiring of local workforce by providing wage support, so as to create good and long-term jobs for locals.",
+            "url": "https://www.go.gov.sg/jgi"
+          },
+          {
+            "name": "Productivity Solutions Grant (PSG)",
+            "description": "The PSG supports businesses in the adoption of productivity solutions. Businesses can choose from a list of pre-scoped solutions and receive up to 50% funding support for eligible costs.",
+            "url": "https://www.gobusiness.gov.sg/productivity-solutions-grant/"
+          },
+          {
+            "name": "Senior Employment Credit",
+            "description": "No application is required. The Senior Employment Credit provides wage offsets to help employers that employ workers aged 55 and above adjust to the higher Retirement Age and Re-employment Age.",
+            "url": "https://go.gov.sg/sec-cto-eec"
+          },
+          {
+            "name": "SkillsFuture Work-Study Programmes (WSPs)",
+            "description": "Businesses can groom and hire fresh talent through Work-Study Programmes across Certificate, Diploma, Post-Diploma, and Degree levels. Businesses will jointly design and deliver with Institutes of Higher Learning (IHLs) and appointed private providers.",
+            "url": "https://www.gobusiness.gov.sg/enterprisejobskills/programmes-and-initiatives/recruit-talent/skillsfuture-work-study-programmes/"
+          },
+          {
+            "name": "Start Digital",
+            "description": "SMEs new to using digital technology can adopt any 2 solutions e.g. Digital Marketing, Digital Collaboration, Accounting, HR/Payroll, Cybersecurity, etc., at no cost for at least 6 months (min. 18 months contract).",
+            "url": "https://www.imda.gov.sg/StartDigital"
+          },
+          {
+            "name": "Wage Credit Scheme",
+            "description": "No application is required. The government provides co-funding of wage increments for Singaporean employees earning a gross monthly wage of up to $5,000.",
+            "url": "https://www.iras.gov.sg/irasHome/wcs.aspx"
+          }
+        ]
+      },
+      {
+        "name": "Hire, Train, and Upskill Employees",
+        "programs": [
+          {
+            "name": "e-Adviser for Skills Training",
+            "description": "For business owners to get personalised recommendations on skills training courses and SkillsFuture initiatives relevant to your business as part of the SkillsFuture Movement.",
+            "url": "https://eadviser.gobusiness.gov.sg/skillstraining?src=govassist_grants"
+          },
+          {
+            "name": "SkillsFuture for Enterprise User Guide",
+            "description": "Check out the 5 key steps to get started on your SkillsFuture journey",
+            "url": "https://www.gobusiness.gov.sg/skillsfuture-for-enterprise/?src=govassist_grants"
+          },
+          {
+            "name": "Career Trial",
+            "description": "Allows companies to assess jobseekers’ job fit through a short-term trial, before formal employment. Government will provide training allowance to the jobseekers for the trial period (up to 3 months).",
+            "url": "https://www.wsg.gov.sg/programmes-and-initiatives/career-trial-employers.html"
+          },
+          {
+            "name": "Citrep+",
+            "description": "Build ICT technical skills for your employees in areas such as cyber security, data analytics, network and infrastructure and software development. Funding support of up to 90%.",
+            "url": "https://www.imda.gov.sg/imtalent/programmes/citrep-plus"
+          },
+          {
+            "name": "Company-Led Training (CLT) Programme",
+            "description": "CLT accelerates professional development through on-the-job training programme for fresh to mid-level professionals acquiring competencies for jobs in demand by industry, especially the Digital Economy sector.",
+            "url": "https://www.imda.gov.sg/programme-listing/TechSkills-Accelerator-TeSA/Company-Led-Training-Programme-CLT"
+          },
+          {
+            "name": "Employment Support for Ex-Offenders",
+            "description": "This programme supports companies to tap on ex-offenders as an alternative pool of trained and skilled workers.",
+            "url": "https://www.wsg.gov.sg/programmes-and-initiatives/employment-support-for-employers-to-hire-ex-offenders.html"
+          },
+          {
+            "name": "Employment Support for Persons with Disabilities",
+            "description": "Hire, train and integrate Persons with Disabilities into the workforce. Receive course fee subsidies of up to 90% for SG Enable’s list of curated training courses.",
+            "url": "https://www.wsg.gov.sg/programmes-and-initiatives/employment-support-for-persons-with-disabilities.html"
+          },
+          {
+            "name": "Enabling Employment Credit",
+            "description": "The Enabling Employment Credit provides wage offsets to employers hiring persons with disabilities.",
+            "url": "https://go.gov.sg/sec-cto-eec"
+          },
+          {
+            "name": "Enhanced Training Support for SMEs (ETSS)",
+            "description": "The ETSS offers higher course fee grant of up to 90% of the course fees and absentee payroll funding of 80% of basic hourly salary at a higher cap of $7.50 per hour for SMEs signing up for SSG-supported courses. With effect from 1 Jan 2022, SSG will introduce a fixed absentee payroll rate of $4.50 per hour, capped at $100,000 per organisation annually.",
+            "url": "https://www.gobusiness.gov.sg/enterprisejobskills/programmes-and-initiatives/upgrade-skills/course-fee-absentee-payroll-funding/"
+          },
+          {
+            "name": "Jobs Growth Incentive (JGI)",
+            "description": "The Jobs Growth Incentive (JGI) was announced on 17 Aug 2020 to encourage employers to accelerate their hiring of local workforce by providing wage support, so as to create good and long-term jobs for locals.",
+            "url": "https://www.go.gov.sg/jgi"
+          },
+          {
+            "name": "Part-Time Re-employment Grant (PTRG)",
+            "description": "Provides funding support to companies that voluntarily commit to providing part-time re-employment to all eligible seniors who request for it.",
+            "url": "https://www.wsg.gov.sg/programmes-and-initiatives/senior-worker-early-adopter-grant-and-part-time-re-employment-grant-employers.html"
+          },
+          {
+            "name": "SkillsFuture Work-Study Programmes (WSPs)",
+            "description": "Businesses can groom and hire fresh talent through Work-Study Programmes across Certificate, Diploma, Post-Diploma, and Degree levels. Businesses will jointly design and deliver with Institutes of Higher Learning (IHLs) and appointed private providers.",
+            "url": "https://www.gobusiness.gov.sg/enterprisejobskills/programmes-and-initiatives/recruit-talent/skillsfuture-work-study-programmes/"
+          },
+          {
+            "name": "Uplifting Employment Credit",
+            "description": "The Uplifting Employment Credit provides wage offsets to employers hiring ex-offenders.",
+            "url": "https://www.go.gov.sg/uec"
+          }
+        ]
+      },
+      {
+        "name": "Improve My Customer Experience",
+        "programs": [
+          {
+            "name": "Productivity Solutions Grant (PSG)",
+            "description": "Supports businesses in the adoption of productivity solutions. Businesses can choose from a list of pre-scoped solutions and receive up to 50% funding support for eligible costs.",
+            "url": "https://www.gobusiness.gov.sg/productivity-solutions-grant/"
+          }
+        ]
+      },
+      {
+        "name": "Improve My Financial Management",
+        "programs": [
+          {
+            "name": "Progressive Wage Credit Scheme",
+            "description": "Provides transitional support to employers for Progressive Wages moves, by co-funding wage increases of lower-wage workers between 2022 and 2026.",
+            "url": "https://go.gov.sg/askpwcs"
+          },
+          {
+            "name": "Startup SG Founder",
+            "description": "Provides mentorship and startup capital grant of S$50,000 to first-time entrepreneurs with innovative business ideas. Startups are required to commit S$10,000 as co-matching fund to the grant.",
+            "url": "https://www.startupsg.gov.sg/programmes/4894/startup-sg-founder"
+          }
+        ]
+      },
+      {
+        "name": "Improve My Operational Processes",
+        "programs": [
+          {
+            "name": "3R Fund",
+            "description": "Supports companies and organisations registered in Singapore to implement waste minimisation and recycling projects to reduce solid waste sent for disposal.",
+            "url": "https://www.nea.gov.sg/programmes-grants/grants-and-awards/3r-fund"
+          },
+          {
+            "name": "Productivity Solutions Grant (PSG)",
+            "description": "Supports businesses in the adoption of productivity solutions. Businesses can choose from a list of pre-scoped solutions and receive up to 50% funding support for eligible costs.",
+            "url": "https://www.gobusiness.gov.sg/productivity-solutions-grant/"
+          },
+          {
+            "name": "Water Efficiency Fund (WEF)",
+            "description": "Provides funding to local non-domestic water users to enable them to improve water efficiency through water efficiency assessment, pilot study, recycling, adoption of water efficient equipment & industrial water solution demonstration projects.",
+            "url": "https://www.pub.gov.sg/savewater/atwork/efficiencymeasures"
+          }
+        ]
+      },
+      {
+        "name": "Improve Working Arrangements",
+        "programs": [
+          {
+            "name": "Part-Time Re-employment Grant (PTRG)",
+            "description": "Provides funding support to companies that voluntarily commit to providing part-time re-employment to all eligible seniors who request for it.",
+            "url": "https://www.wsg.gov.sg/programmes-and-initiatives/senior-worker-early-adopter-grant-and-part-time-re-employment-grant-employers.html"
+          },
+          {
+            "name": "Productivity Solutions Grant (PSG)",
+            "description": "Supports businesses in the adoption of productivity solutions. Businesses can choose from a list of pre-scoped solutions and receive up to 50% funding support for eligible costs.",
+            "url": "https://www.gobusiness.gov.sg/productivity-solutions-grant/"
+          }
+        ]
+      }        
+    ]
+  }
+]
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || ''
@@ -148,21 +367,7 @@ async function submitUserMessage(content: string) {
     messages: [
       {
         role: 'system',
-        content: `\
-You are a stock trading conversation bot and you can help users buy stocks, step by step.
-You and the user can discuss stock prices and the user can adjust the amount of stocks they want to buy, or place an order, in the UI.
-
-Messages inside [] means that it's a UI element or a user event. For example:
-- "[Price of AAPL = 100]" means that an interface of the stock price of AAPL is shown to the user.
-- "[User has changed the amount of AAPL to 10]" means that the user has changed the amount of AAPL to 10 in the UI.
-
-If the user requests purchasing a stock, call \`show_stock_purchase_ui\` to show the purchase UI.
-If the user just wants the price, call \`show_stock_price\` to show the price.
-If you want to show trending stocks, call \`list_stocks\`.
-If you want to show events, call \`get_events\`.
-If the user wants to sell stock, or complete another impossible task, respond that you are a demo and cannot do that.
-
-Besides that, you can also chat with users and do some calculations if needed.`
+        content: userMessagePrompt + JSON.stringify(DUMMYDATA)
       },
       ...aiState.get().messages.map((message: any) => ({
         role: message.role,
@@ -196,18 +401,18 @@ Besides that, you can also chat with users and do some calculations if needed.`
       return textNode
     },
     functions: {
-      listStocks: {
-        description: 'List three imaginary stocks that are trending.',
+      viewGrants: {
+        description: 'List three imaginary government grants for startups.',
         parameters: z.object({
-          stocks: z.array(
+          grants: z.array(
             z.object({
-              symbol: z.string().describe('The symbol of the stock'),
-              price: z.number().describe('The price of the stock'),
-              delta: z.number().describe('The change in price of the stock')
+              name: z.string().describe('The name of the grant'),
+              description: z.string().describe('The description of the grant'),
+              link: z.string().describe('The link to the grant')
             })
           )
         }),
-        render: async function* ({ stocks }) {
+        render: async function* ({ grants }) {
           yield (
             <BotCard>
               <StocksSkeleton />
@@ -223,15 +428,15 @@ Besides that, you can also chat with users and do some calculations if needed.`
               {
                 id: nanoid(),
                 role: 'function',
-                name: 'listStocks',
-                content: JSON.stringify(stocks)
+                name: 'viewGrants',
+                content: JSON.stringify(grants)
               }
             ]
           })
 
           return (
             <BotCard>
-              <Stocks props={stocks} />
+              <Grants props={grants} />
             </BotCard>
           )
         }
@@ -277,7 +482,7 @@ Besides that, you can also chat with users and do some calculations if needed.`
           )
         }
       },
-      showStockPurchase: {
+      showGarbage: {
         description:
           'Show price and the UI to purchase a stock or currency. Use this if the user wants to purchase a stock or currency.',
         parameters: z.object({
@@ -469,15 +674,15 @@ export const getUIStateFromAIState = (aiState: Chat) => {
       id: `${aiState.chatId}-${index}`,
       display:
         message.role === 'function' ? (
-          message.name === 'listStocks' ? (
+          message.name === 'viewGrants' ? (
             <BotCard>
-              <Stocks props={JSON.parse(message.content)} />
+              <Grants props={JSON.parse(message.content)} />
             </BotCard>
           ) : message.name === 'showStockPrice' ? (
             <BotCard>
               <Stock props={JSON.parse(message.content)} />
             </BotCard>
-          ) : message.name === 'showStockPurchase' ? (
+          ) : message.name === 'showGarbage' ? (
             <BotCard>
               <Purchase props={JSON.parse(message.content)} />
             </BotCard>

@@ -1,5 +1,5 @@
-<a href="https://chat.vercel.ai/">
-  <img alt="Next.js 14 and App Router-ready AI chatbot." src="https://chat.vercel.ai/opengraph-image.png">
+<a href="https://hackomania-govtech.vercel.app/">
+  <img alt="GovernAnalysis GPT" src="docs/Home.png">
   <h1 align="center">GovernAnalysis GPT</h1>
 </a>
 
