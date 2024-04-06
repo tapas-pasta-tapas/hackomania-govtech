@@ -7,6 +7,7 @@ import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { Providers } from '@/components/providers'
 import { Header } from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
+import { SidebarNew } from '@/components/component/sidebar'
 
 export const metadata = {
   metadataBase: new URL(`https://${process.env.VERCEL_URL}`),
@@ -52,7 +53,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="flex flex-col flex-1 bg-muted/50">{children}</main>
+            <div className="flex flex-row">
+              <SidebarNew />
+              <main className="flex flex-col flex-1 bg-muted/50">{children}</main>
+            </div>
           </div>
           <TailwindIndicator />
         </Providers>
