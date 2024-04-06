@@ -7,7 +7,7 @@ import { getMissingKeys } from '../actions'
 import { injest } from '../injest'
 
 export const metadata = {
-  title: 'Next.js AI Chatbot'
+  title: 'GovAnalysis Chatbot'
 }
 
 export default async function IndexPage() {
