@@ -14,7 +14,7 @@ export default async function IndexPage() {
   const id = nanoid()
   const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
-  const inj = await injest()
+  // const inj = await injest() // turned off for now
 
   return (
     <AI initialAIState={{ chatId: id, messages: [] }}>
