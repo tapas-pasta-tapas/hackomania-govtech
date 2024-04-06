@@ -1,10 +1,10 @@
 <a href="https://chat.vercel.ai/">
   <img alt="Next.js 14 and App Router-ready AI chatbot." src="https://chat.vercel.ai/opengraph-image.png">
-  <h1 align="center">Next.js AI Chatbot</h1>
+  <h1 align="center">GovernAnalysis GPT</h1>
 </a>
 
 <p align="center">
-  An open-source AI chatbot app template built with Next.js, the Vercel AI SDK, OpenAI, and Vercel KV.
+  An open-source AI chatbot app template built with Next.js, the Vercel AI SDK, OpenAI, and Vercel KV. This chatbot utilises RAG and vector database to provide information on government policies and regulations.
 </p>
 
 <p align="center">
