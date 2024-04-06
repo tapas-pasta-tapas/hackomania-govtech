@@ -54,11 +54,11 @@ This product can:
   <img alt="GovernAnalysis GPT" src="docs/Chat.png">
 </a>
 
-## Creating a KV Database Instance
+Here is an example of the chat page. The chat page is designed to be simple and easy to use. The chatbot will provide information on government policies and regulations based on the user's input.
 
-Follow the steps outlined in the [quick start guide](https://vercel.com/docs/storage/vercel-kv/quickstart#create-a-kv-database) provided by Vercel. This guide will assist you in creating and configuring your KV database instance on Vercel, enabling your application to interact with it.
-
-Remember to update your environment variables (`KV_URL`, `KV_REST_API_URL`, `KV_REST_API_TOKEN`, `KV_REST_API_READ_ONLY_TOKEN`) in the `.env` file with the appropriate credentials provided during the KV database setup.
+<a href="https://hackomania-govtech.vercel.app/">
+  <img alt="GovernAnalysis GPT" src="docs/Example.png">
+</a>
 
 ## Other Authors
 
