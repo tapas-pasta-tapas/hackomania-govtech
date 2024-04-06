@@ -37,23 +37,23 @@ export function ChatPanel({
   const exampleMessages = [
     {
       heading: 'What are the',
-      subheading: 'trending memecoins today?',
-      message: `What are the trending memecoins today?`
+      subheading: 'productivity grants available for businesses looking to expand?',
+      message: `What are the productivity grants available for businesses looking to expand?`
     },
     {
-      heading: 'What is the price of',
-      subheading: '$DOGE right now?',
-      message: 'What is the price of $DOGE right now?'
+      heading: 'How do I ',
+      subheading: 'go about digitalising my businesses?',
+      message: 'How do I go about digitalising my businesses?'
     },
     {
-      heading: 'I would like to buy',
-      subheading: '42 $DOGE',
-      message: `I would like to buy 42 $DOGE`
+      heading: 'I would like to',
+      subheading: 'be part of the Job Growth Initiative. How do I apply?',
+      message: `I would like to be part of the Job Growth Initiative. How do I apply?`
     },
     {
       heading: 'What are some',
-      subheading: `recent events about $DOGE?`,
-      message: `What are some recent events about $DOGE?`
+      subheading: `ways I can receive some government grants for my start-up`,
+      message: `What are some ways I can receive some government grants for my start-up?`
     }
   ]
 
