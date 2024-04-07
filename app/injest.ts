@@ -78,7 +78,7 @@ export async function injest() {
         input_documents: resultOne,
         question: prompt,
       });
-      console.log(resA);
+      // console.log(resA);
     return resA
   } catch (e: any) {
     return console.error(e)
