@@ -11,7 +11,7 @@ export function SidebarNew() {
                 <div className="flex h-[60px] items-center border-b px-6">
                     <Link className="flex items-center gap-2 font-semibold" href="#">
                         <Package2Icon className="size-6" />
-                        <span className="">Govern Analysis</span>
+                        <span className="">Gov Analysis</span>
                     </Link>
                     {/* <Button className="ml-auto size-8" size="icon" variant="outline">
                         <BellIcon className="size-4" />

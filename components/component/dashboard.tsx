@@ -18,11 +18,11 @@ export function Dashboard() {
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
           <div className="grid gap-4 md:gap-8">
             <div className="flex items-center gap-4 md:gap-8">
-              <h1 className="text-2xl font-semibold">Welcome to Govern Analysis</h1>
+              <h1 className="text-2xl font-semibold">Welcome to Gov Analysis</h1>
             </div>
             <div className="grid gap-4 md:gap-8">
               <p className="text-gray-500 text-sm  dark:text-gray-400 font-light">
-                Govern Analysis is the go-to platform for businesses to access government services and support. It provides a
+                Gov Analysis is the go-to platform for businesses to access government services and support. It provides a
                 range of resources and tools to help your SMEs grow and thrive, and guides users through the end-to-end process of setting up a business in Singapore
 
                 anticipating and matching users’ business needs with
