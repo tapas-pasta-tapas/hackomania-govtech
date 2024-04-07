@@ -55,6 +55,7 @@ export async function injest() {
     // }
     // console.log(docs);
       
+    const prompt = "What grants are there and how do I apply for them? Give me links and descriotion for all";
 
   try {
     const client = createClient(
@@ -71,11 +72,11 @@ export async function injest() {
         queryName: 'match_documents'
       }
     )
-    const resultOne = await vectorstore.similaritySearch('grant', 1)
+    const resultOne = await vectorstore.similaritySearch(prompt, 1)
     //Change Question with prompt
     const resA = await chainA.invoke({
         input_documents: resultOne,
-        question: "What grants are there and how do I apply for them? Give me links and descriotion for all",
+        question: prompt,
       });
       console.log(resA);
     return resA
