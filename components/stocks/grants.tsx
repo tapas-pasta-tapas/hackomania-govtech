@@ -5,6 +5,7 @@ import { useActions, useUIState } from 'ai/rsc'
 import type { AI } from '@/lib/chat/actions'
 import Link from 'next/link'
 import { elaboratePrompt } from '@/lib/promptEngineering'
+import { ExternalLink } from '../external-link'
 
 interface Grant {
   name: string
@@ -34,14 +35,15 @@ export function Grants({ props: grants }: { props: Grant[] }) {
                 ${grant.description}
               </div>
             </div>
-            <Link
-              href={grant.link}
-              className={`${
-                grant.link ? 'text-green-600' : 'text-red-600'
-              } flex flex-row justify-center hover:underline`}
-            >
-              {grant.link}
-            </Link>
+            <ExternalLink href={grant.link}>
+              <Link
+                href={grant.link}
+                className={`${grant.link ? 'text-green-600' : 'text-red-600'
+                  } flex flex-row justify-center hover:underline`}
+              >
+                {grant.link}
+              </Link>
+            </ExternalLink>
           </button>
         ))}
       </div>
