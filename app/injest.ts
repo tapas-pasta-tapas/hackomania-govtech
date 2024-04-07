@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-// import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import {
   loadQAStuffChain,
   loadQAMapReduceChain,
@@ -35,7 +34,7 @@ interface DataJson {
 
 export async function injest() {
     // get body from jsonfile on data/data.json
-    const filePath = path.resolve('../hackomania-govtech/data', 'data.json'); // Adjust the path as necessary
+    const filePath = path.resolve('./data', 'data.json'); // Adjust the path as necessary
     const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     // console.log(jsonData);
     const llmA = new OpenAI({});
