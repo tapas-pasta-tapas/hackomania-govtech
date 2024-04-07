@@ -1,38 +1,37 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server'
 // import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import {
-    loadQAStuffChain,
-    loadQAMapReduceChain,
-    loadQARefineChain,
-  } from "langchain/chains"
-import { createClient } from "@supabase/supabase-js";
-import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
-import { OpenAIEmbeddings, OpenAI } from "@langchain/openai";
-import { Document } from "langchain/document";
-import fs from 'fs';
-import path from 'path';
+  loadQAStuffChain,
+  loadQAMapReduceChain,
+  loadQARefineChain
+} from 'langchain/chains'
+import { createClient } from '@supabase/supabase-js'
+import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase'
+import { OpenAIEmbeddings, OpenAI } from '@langchain/openai'
+import { Document } from 'langchain/document'
+import fs from 'fs'
+import path from 'path'
 
 interface Program {
-    name: string;
-    description: string;
-    url: string;
-  }
-  
-  interface ProgramCategory {
-    name: string;
-    programs: Program[];
-  }
-  
-  interface Category {
-    category: string;
-    programs: ProgramCategory[];
-  }
-  
-  // Assuming `json` is of the following type
-  interface DataJson {
-    data: Category[];
-  }
-  
+  name: string
+  description: string
+  url: string
+}
+
+interface ProgramCategory {
+  name: string
+  programs: Program[]
+}
+
+interface Category {
+  category: string
+  programs: ProgramCategory[]
+}
+
+// Assuming `json` is of the following type
+interface DataJson {
+  data: Category[]
+}
 
 export async function injest() {
     // get body from jsonfile on data/data.json
@@ -95,32 +94,30 @@ let ImproveMyFinancialManagementText = '';
       });
     // console.log(resA);
 
-    // console.log(text);
+  // console.log(text);
 
-    // const splitDocuments = await splitter.createDocuments([text]);
-    
-    try {
+  // const splitDocuments = await splitter.createDocuments([text]);
+
+  try {
     const client = createClient(
       process.env.SUPABASE_URL!,
-      process.env.SUPABASE_KEY!,
-    );
+      process.env.SUPABASE_KEY!
+    )
 
     const vectorstore = await SupabaseVectorStore.fromDocuments(
-        docs,
-        new OpenAIEmbeddings(),
-        {
-          client,
-          tableName: "documents",
-          queryName: "match_documents",
-        },
-      );
-      const resultOne = await vectorstore.similaritySearch('grant', 1)
-      console.log(resultOne);
+      docs,
+      new OpenAIEmbeddings(),
+      {
+        client,
+        tableName: 'documents',
+        queryName: 'match_documents'
+      }
+    )
+    const resultOne = await vectorstore.similaritySearch('grant', 1)
+    console.log(resultOne)
 
-
-    return console.log('done injesting data' + resultOne);
+    return console.log('done injesting data' + resultOne)
   } catch (e: any) {
-    return console.error(e);
+    return console.error(e)
   }
 }
-
