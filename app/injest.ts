@@ -37,66 +37,25 @@ export async function injest() {
     // get body from jsonfile on data/data.json
     const filePath = path.resolve('../hackomania-govtech/data', 'data.json'); // Adjust the path as necessary
     const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-    console.log(jsonData);
-    // const splitter = RecursiveCharacterTextSplitter.fromLanguage("markdown", {
-    //     chunkSize: 256,
-    //     chunkOverlap: 20,
-    //   });
-    let grantsForStartupsText = '';
-let adoptTechnologyText = '';
-let bringBusinessOverseasText = '';
-let hireTrainUpskillText = '';
-let improveCustomerExperienceText = '';
-let ImproveMyCustomerExperienceText = '';
-let ImproveMyFinancialManagementText = '';
-
+    // console.log(jsonData);
     const llmA = new OpenAI({});
     const chainA = loadQAStuffChain(llmA);
-    jsonData.DUMMYDATA[0].programs.forEach((program:any) => {
-        // Extract the name of the program
-        const programName = program.name;
-        
-        // Extract the description of the program
-        const description = program.programs.map((p : any) => p.description).join('\n');
-        
-        // Check if the program is one of the desired grants and store its description accordingly
-        if (programName === 'Grants for Startups') {
-            grantsForStartupsText = description;
-        } else if (programName === 'Adopt Technology to Digitise My Business') {
-            adoptTechnologyText = description;
-        } else if (programName === 'Bring My Business Overseas') {
-            bringBusinessOverseasText = description;
-        } else if (programName === 'Hire, Train, and Upskill Employees') {
-            hireTrainUpskillText = description;
-        } else if (programName === 'Improve My Customer Experience') {
-            improveCustomerExperienceText = description;
-        } else if (programName === 'Improve My Financial Management') {
-            ImproveMyFinancialManagementText = description;
-        } else if (programName === 'Improve My Customer Experience') {
-            ImproveMyCustomerExperienceText = description;
-        } 
-    });
-    const docs = [
-        new Document({ pageContent: grantsForStartupsText }),
-        new Document({ pageContent: adoptTechnologyText }),
-        new Document({ pageContent: grantsForStartupsText }),
-        new Document({ pageContent: bringBusinessOverseasText }),
-        new Document({ pageContent: hireTrainUpskillText }),
-        new Document({ pageContent: improveCustomerExperienceText }),
-        new Document({ pageContent: ImproveMyCustomerExperienceText }),
-        new Document({ pageContent: ImproveMyFinancialManagementText }),
+    const docs : Document[] = [];
+    //code below only need to run once
 
-      ];
+    // for (const category of jsonData.DUMMYDATA) {
+    //     for (const programCategory of category.programs) {
+    //         let content = ""
+    //         content += programCategory.name + ": \n";
+    //         for (const program of programCategory.programs) {
+    //              content += program.name + ": " + program.description + program.url + "\n";
+    //         }
+    //         docs.push(new Document({ pageContent: content }));
+    //     }
+    // }
+    // console.log(docs);
       
-    const resA = await chainA.invoke({
-        input_documents: docs,
-        question: "What grants are there and how do I apply for them? Give me links and descriotion for all",
-      });
-    // console.log(resA);
-
-  // console.log(text);
-
-  // const splitDocuments = await splitter.createDocuments([text]);
+    const prompt = "What grants are there and how do I apply for them? Give me links and descriotion for all";
 
   try {
     const client = createClient(
@@ -113,10 +72,14 @@ let ImproveMyFinancialManagementText = '';
         queryName: 'match_documents'
       }
     )
-    const resultOne = await vectorstore.similaritySearch('grant', 1)
-    console.log(resultOne)
-
-    return console.log('done injesting data' + resultOne)
+    const resultOne = await vectorstore.similaritySearch(prompt, 1)
+    //Change Question with prompt
+    const resA = await chainA.invoke({
+        input_documents: resultOne,
+        question: prompt,
+      });
+      // console.log(resA);
+    return resA
   } catch (e: any) {
     return console.error(e)
   }
