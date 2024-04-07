@@ -10,6 +10,7 @@ import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/com
 import { Header } from "../header"
 import Head from "next/head"
 import { SidebarNew } from "./sidebar"
+import { ExternalLink } from "../external-link"
 export function Dashboard() {
   return (
     <div className="flex h-screen w-full min-h-screen lg:grid-cols-[300px_1fr] overflow-y-hidden">
@@ -48,7 +49,9 @@ export function Dashboard() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Button className="bg-white text-black">Learn More</Button>
+                  <ExternalLink href="https://www.smartnation.gov.sg/initiatives/digital-government-services/">
+                    <Button className="bg-white text-black">Learn More</Button>
+                  </ExternalLink>
                 </CardContent>
               </Card>
               <Card className="bg-[#333333] text-white">
@@ -59,7 +62,9 @@ export function Dashboard() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Button className="bg-white text-black">Explore Resources</Button>
+                  <ExternalLink href="https://www.gobusiness.gov.sg/gov-assist/
+"><Button>Explore Resources</Button></ExternalLink>
+
                 </CardContent>
               </Card>
             </div>

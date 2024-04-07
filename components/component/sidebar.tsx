@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ExternalLink } from "../external-link";
 
 export function SidebarNew() {
     return (
@@ -33,27 +34,29 @@ export function SidebarNew() {
                             <MessageSquareIcon className="size-4" />
                             Chat
                         </Link>
-                        <Link
+                        {/* <Link
                             className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
                             href="#"
                         >
                             <FileTextIcon className="size-4" />
                             Assessment
-                        </Link>
-                        <Link
-                            className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                            href="#"
-                        >
-                            <LayoutGridIcon className="size-4" />
-                            Services
-                        </Link>
-                        <Link
-                            className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                            href="#"
-                        >
-                            <BookIcon className="size-4" />
-                            Resources
-                        </Link>
+                        </Link> */}
+                        <ExternalLink href="https://www.smartnation.gov.sg/initiatives/digital-government-services/">
+                            <div
+                                className="flex items-center gap-3 rounded-lg pl-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+                            >
+                                <LayoutGridIcon className="size-4" />
+                                Services
+                            </div>
+                        </ExternalLink>
+                        <ExternalLink href="https://www.gobusiness.gov.sg/gov-assist/">
+                            <div
+                                className="flex items-center gap-3 rounded-lg pl-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+                            >
+                                <BookIcon className="size-4" />
+                                Resources
+                            </div>
+                        </ExternalLink>
                     </nav>
                 </div>
                 {/* <div className="flex items-center border-t py-4">
