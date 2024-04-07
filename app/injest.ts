@@ -43,15 +43,50 @@ export async function injest() {
     //     chunkSize: 256,
     //     chunkOverlap: 20,
     //   });
+    let grantsForStartupsText = '';
+let adoptTechnologyText = '';
+let bringBusinessOverseasText = '';
+let hireTrainUpskillText = '';
+let improveCustomerExperienceText = '';
+let ImproveMyCustomerExperienceText = '';
+let ImproveMyFinancialManagementText = '';
+
     const llmA = new OpenAI({});
     const chainA = loadQAStuffChain(llmA);
-    const text = jsonData?.data?.map((category : Category) => 
-        category.programs.map(program => 
-            program.programs.map(p => p.description).join('\n')
-        ).join('\n\n')
-    ).join('\n\n');
+    jsonData.DUMMYDATA[0].programs.forEach((program:any) => {
+        // Extract the name of the program
+        const programName = program.name;
+        
+        // Extract the description of the program
+        const description = program.programs.map((p : any) => p.description).join('\n');
+        
+        // Check if the program is one of the desired grants and store its description accordingly
+        if (programName === 'Grants for Startups') {
+            grantsForStartupsText = description;
+        } else if (programName === 'Adopt Technology to Digitise My Business') {
+            adoptTechnologyText = description;
+        } else if (programName === 'Bring My Business Overseas') {
+            bringBusinessOverseasText = description;
+        } else if (programName === 'Hire, Train, and Upskill Employees') {
+            hireTrainUpskillText = description;
+        } else if (programName === 'Improve My Customer Experience') {
+            improveCustomerExperienceText = description;
+        } else if (programName === 'Improve My Financial Management') {
+            ImproveMyFinancialManagementText = description;
+        } else if (programName === 'Improve My Customer Experience') {
+            ImproveMyCustomerExperienceText = description;
+        } 
+    });
     const docs = [
-        new Document({ pageContent: text }),
+        new Document({ pageContent: grantsForStartupsText }),
+        new Document({ pageContent: adoptTechnologyText }),
+        new Document({ pageContent: grantsForStartupsText }),
+        new Document({ pageContent: bringBusinessOverseasText }),
+        new Document({ pageContent: hireTrainUpskillText }),
+        new Document({ pageContent: improveCustomerExperienceText }),
+        new Document({ pageContent: ImproveMyCustomerExperienceText }),
+        new Document({ pageContent: ImproveMyFinancialManagementText }),
+
       ];
       
     const resA = await chainA.invoke({
