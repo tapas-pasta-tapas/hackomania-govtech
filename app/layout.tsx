@@ -13,9 +13,9 @@ export const metadata = {
   metadataBase: new URL(`https://${process.env.VERCEL_URL}`),
   title: {
     default: 'Govern Analysis Chatbot',
-    template: `%s - Next.js AI Chatbot`
+    template: `Govern Analysis Chatbot`
   },
-  description: 'An AI-powered chatbot template built with Next.js and Vercel.',
+  description: 'GovAnalysis is a Langchain-enabled RAG chatbot that helps you find government support opportunities for your business.',
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
